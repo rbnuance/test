@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Agent Desktop | Nuance Communications</title>
+    <meta name="description" content>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <script src="https://agent-us1.digital.nuance.com/dc-environments.js" data-dc></script>
+    <script>
+      (function() {
+        window.NUANCE_ENV = window.NUANCE_ENV || {};
+        NUANCE_ENV.URLS = NUANCE_ENV.URLS || {};
+        NUANCE_ENV.URLS.CDN = NUANCE_ENV.URLS.CDN.match('http') ? NUANCE_ENV.URLS.CDN : 'https://static.inq.com/agent-desktop';
+        var storageKey = 'agent-desktop-version';
+        var version =
+          (location.href.match(/\bversion=([^&]+)/) || [])[1] ||
+          sessionStorage.getItem(storageKey) ||
+          localStorage.getItem(storageKey) ||
+          (location.hostname === 'localhost' ? 'local' : null) ||
+          'stable';
+        NUANCE_ENV.AGENT_DESKTOP_VERSION = version;
+        if (version !== 'stable' && version !== 'local') {
+          NUANCE_ENV.URLS.CDN = 'https://static.inq.com/agent-desktop-demo';
+        }
+        var baseUrl = version === 'local' ?
+          'index.js' :
+          NUANCE_ENV.URLS.CDN + '/versions/' + version + '/';
+        var indexJsUrl = baseUrl + 'index.js'
+        document.head.appendChild(document.createElement('script')).src = indexJsUrl;
+        document.write("<base href='" + baseUrl + "' />");
+      })()
+    </script>
+  </head>
+  <body>
+    <div id="ember-basic-dropdown-wormhole"></div>
+  </body>
+</html>
